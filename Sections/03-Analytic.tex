@@ -56,7 +56,7 @@
     \frac{t}{n} \geq \sum_{l=t+1}^n p_{t,l}\, f(l) &= \sum_{l=t+1}^n \frac{t}{l(l-1)} \cdot \frac{l}{n} \\
     &= \frac{t}{n} \sum_{l=t+1}^n \frac{1}{l-1} = \frac{t}{n} \sum_{l=t}^{n-1} \frac{1}{l}.
     \end{align*}
-    Since \frac{t}{n} > 0$ for all $t \geq 1$, we may cancel it from both sides. The optimal strategy is therefore to accept any candidate at state $t$ such that 
+    Since $\frac{t}{n} > 0$ for all $t \geq 1$, we may cancel it from both sides. The optimal strategy is therefore to accept any candidate at state $t$ such that 
     \[
     \sum_{l=t}^{n-1} \frac{1}{l} \leq 1
     \]
@@ -67,5 +67,5 @@ For large $n$, this sum can be approximated by an integral:
 \[
 \sum_{l=t^*}^{n-1} \frac{1}{l} \approx \int_{t^*}^{n} \frac{1}{x}\, dx = \ln n - \ln t^* = \ln\!(\frac{n}{t^*}).
 \]
-Setting this equal to $1$ gives $	ext{ln}\!(\frac{n}{t^*}) = 1$, so $t^* = \frac{n}{e}$. Since $\frac{1}{e} \approx 37\%$, this aligns with the empirical results: the optimal strategy is to observe roughly the first $37\%$ of candidates, then accept the next one who is better than all previously seen.
+Setting this equal to $1$ gives $\ln\!\left(\frac{n}{t^*}\right) = 1$, so $t^* = \frac{n}{e}$. Since $\frac{1}{e} \approx 37\%$, this aligns with the empirical results: the optimal strategy is to observe roughly the first $37\%$ of candidates, then accept the next one who is better than all previously seen.
 \end{remark}

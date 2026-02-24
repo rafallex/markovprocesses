@@ -1,0 +1,71 @@
+% ─────────────────────────────────────────────────────────
+%  Notation guide:
+%    n       = total number of candidates
+%    t       = try-out time / candidate position (1, ..., n)
+%    t*      = threshold: last position in observation phase
+%    t*+1    = first position where we accept a candidate
+%    f(t)    = probability candidate at t is overall best = t/n
+%    g(t)    = probability of winning if we reject at t and play optimally
+%    v(t)    = optimal value function = max(f(t), g(t))
+%    p_{t,l} = transition probability: next candidate at l given candidate at t
+%    l       = summation index over future candidate positions
+%    j       = continuous approximation variable for t* (used in remark)
+% ─────────────────────────────────────────────────────────
+
+\section{Analytic solution}
+\begin{theorem}[Optimal strategy]\label{thm:optimal}
+    The optimal strategy is to reject all candidates at states $1, \dots, t^*$, 
+    and accept the first candidate at state $t^* + 1$ or later, where $t^*+1$ is the 
+    smallest integer such that
+    \[
+    \sum_{l=t^*+1}^{n-1} \frac{1}{l} = \frac{1}{t^*+1} + \frac{1}{t^*+2} + \dots + \frac{1}{n-1} \leq 1,
+    \]
+    holds. Equivalently, $t^*$ is the largest integer such that
+    \[
+    \sum_{l=t^*}^{n-1} \frac{1}{l} > 1.
+    \]
+\end{theorem}
+\begin{proof}
+    This proof is given in \Citeauthor{quine1996exact} \cite{quine1996exact}, but based on \Citeauthor{dynkin1963optimal} \cite{dynkin1963optimal}.
+    We start by defining three functions. First, $f(t)$ is the probability of winning if we accept the candidate observed at time $t$. We know from Equation~\ref{eq:cand-best} that 
+    \[
+        f(t) = \frac{t}{n}.
+    \]
+    
+    Then, $v(t)$ is the probability of winning while following the optimal strategy from state $t$ onward. And finally, $g(t)$ is the probability of winning if we reject the candidate at state $t$, but follow the optimal strategy henceforth. That is,
+    \[
+    g(t) = \sum_{l=t+1}^n p_{t,l}\,v(l),
+    \]
+    where $p_{t,l}$ are the transition probabilities given in Equation~\ref{eq:transition}.
+    With $f(t)$ and $g(t)$ defined, the optimal strategy at state $t$ is to either stop or continue depending on whichever maximises the probability of winning:
+    \[
+        v(t) = \max\!(f(t),\; g(t)).
+    \]
+    At the $n$-th step, a candidate must be the overall best, so $v(n) = f(n) = 1$. Further,
+    \begin{align*}
+    v(n-1) &= \max\!(f(n-1),\; g(n-1) ) = \max\!(\frac{n-1}{n},\; \sum_{l=n}^n p_{n-1, l}\, v(l) ) \\
+    &= \max\!(\frac{n-1}{n},\; p_{n-1, n}\, v(n) ) = \max\!( \frac{n-1}{n},\; \frac{1}{n} \cdot \frac{n}{n} ) \\
+    &= \frac{n-1}{n} = f(n-1) \quad \text{for } n\geq 3.
+    \end{align*}
+    By backwards induction, the optimal solution at state $t$ will continue to be to accept the candidate at $t$, for as long as
+    \[
+    f(t) \geq g(t) \iff \frac{t}{n} \geq \sum_{l=t+1}^n p_{t, l}\, v(l),
+    \]
+    where $v(l) = f(l)$ by the induction hypothesis, so
+    \begin{align*}
+    \frac{t}{n} \geq \sum_{l=t+1}^n p_{t,l}\, f(l) &= \sum_{l=t+1}^n \frac{t}{l(l-1)} \cdot \frac{l}{n} \\
+    &= \frac{t}{n} \sum_{l=t+1}^n \frac{1}{l-1} = \frac{t}{n} \sum_{l=t}^{n-1} \frac{1}{l}.
+    \end{align*}
+    Since \frac{t}{n} > 0$ for all $t \geq 1$, we may cancel it from both sides. The optimal strategy is therefore to accept any candidate at state $t$ such that 
+    \[
+    \sum_{l=t}^{n-1} \frac{1}{l} \leq 1
+    \]
+    holds, and reject otherwise. The smallest such $t$ is $t^* + 1$, completing the proof.
+\end{proof}
+\begin{remark}
+For large $n$, this sum can be approximated by an integral:
+\[
+\sum_{l=t^*}^{n-1} \frac{1}{l} \approx \int_{t^*}^{n} \frac{1}{x}\, dx = \ln n - \ln t^* = \ln\!(\frac{n}{t^*}).
+\]
+Setting this equal to $1$ gives $	ext{ln}\!(\frac{n}{t^*}) = 1$, so $t^* = \frac{n}{e}$. Since $\frac{1}{e} \approx 37\%$, this aligns with the empirical results: the optimal strategy is to observe roughly the first $37\%$ of candidates, then accept the next one who is better than all previously seen.
+\end{remark}

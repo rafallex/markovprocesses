@@ -17,7 +17,6 @@ markovprocesses/
 │   └── stationary_distributions.ipynb  # stationary distributions via the null space of (P − I)ᵀ
 └── project/
     ├── Simulation.ipynb                # group project: secretary problem as a Markov chain
-    ├── Secretary_Problem_as_an_MC.pdf  # Cory Simon's source paper the project reproduces
     └── exec_nb.py                       # runs Simulation.ipynb end-to-end and reports cell counts
 ```
 
@@ -60,4 +59,4 @@ Group project with Anton Björk and Samuel Jonsson. We modelled the classical se
 
 The exhaustive search over stopping thresholds recovers the textbook asymptotics — the optimal threshold tracks ⌊n/e⌋ and the win probability approaches 1/e ≈ 0.368. For n = 100 the optimal threshold is t\* = 37 (against ⌊100/e⌋ = 36) with p_W = 0.371; for n = 50 it is t\* = 18 with p_W = 0.374.
 
-`Secretary_Problem_as_an_MC.pdf` is Cory Simon's paper *The Best Choice Problem: calculating the optimal stopping rule using Markov chain theory*, included as the reference the notebook builds on (it is not our own write-up).
+The project reproduces Cory Simon's paper *The Best Choice Problem: calculating the optimal stopping rule using Markov chain theory* (Oregon State University) — that paper is the reference the notebook builds on, not our own write-up. Search for the title to find the source.
